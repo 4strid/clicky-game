@@ -1,0 +1,10 @@
+.picture-panel {
+	width: 200px;
+	height: 200px;
+	margin: 10px;
+}
+
+.picture-panel img {
+	width: 100%;
+	height: 100%;
+}
