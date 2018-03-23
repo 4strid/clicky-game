@@ -36,85 +36,94 @@ class Game extends React.Component {
 			id: 3,
 			src: tsukihi,
 			alt: 'Araragi Tsukihi',
-		//}, {
-			//id: 4,
-			//src: gaen,
-			//alt: 'Gaen Izuko',
-		//}, {
-			//id: 5,
-			//src: hachikuji,
-			//alt: 'Hachikuji Mayoi',
-		//}, {
-			//id: 6,
-			//src: hanekawa,
-			//alt: 'Hanekawa Tsubasa',
-		//}, {
-			//id: 7,
-			//src: kagenui,
-			//alt: 'Kagenui Yozuru',
-		//}, {
-			//id: 8,
-			//src: kaiki,
-			//alt: 'Kaiki Deishu',
-		//}, {
-			//id: 9,
-			//src: kanbaru,
-			//alt: 'Kanbaru Suruga',
-		//}, {
-			//id: 10,
-			//src: ononoki,
-			//alt: 'Ononoki Yotsugi',
-		//}, {
-			//id: 11,
-			//src: oshino,
-			//alt: 'Oshino Meme',
-		//}, {
-			//id: 12,
-			//src: ougi,
-			//alt: 'Oshino Ougi',
-		//}, {
-			//id: 13,
-			//src: shinobu,
-			//alt: 'Oshino Shinobu',
-		//}, {
-			//id: 14,
-			//src: sengoku,
-			//alt: 'Sengoku Nadeko',
-		//}, {
-			//id: 15,
-			//src: senjougahara,
-			//alt: 'Senjougahara Hitagi',
+		}, {
+			id: 4,
+			src: gaen,
+			alt: 'Gaen Izuko',
+		}, {
+			id: 5,
+			src: hachikuji,
+			alt: 'Hachikuji Mayoi',
+		}, {
+			id: 6,
+			src: hanekawa,
+			alt: 'Hanekawa Tsubasa',
+		}, {
+			id: 7,
+			src: kagenui,
+			alt: 'Kagenui Yozuru',
+		}, {
+			id: 8,
+			src: kaiki,
+			alt: 'Kaiki Deishu',
+		}, {
+			id: 9,
+			src: kanbaru,
+			alt: 'Kanbaru Suruga',
+		}, {
+			id: 10,
+			src: ononoki,
+			alt: 'Ononoki Yotsugi',
+		}, {
+			id: 11,
+			src: oshino,
+			alt: 'Oshino Meme',
+		}, {
+			id: 12,
+			src: ougi,
+			alt: 'Oshino Ougi',
+		}, {
+			id: 13,
+			src: shinobu,
+			alt: 'Oshino Shinobu',
+		}, {
+			id: 14,
+			src: sengoku,
+			alt: 'Sengoku Nadeko',
+		}, {
+			id: 15,
+			src: senjougahara,
+			alt: 'Senjougahara Hitagi',
 		}],
 		clicked: [],
 		message: 'Click on any picture to start'
 	}
 
 	handleClick = (id) => {
-		console.log(id)
+		// shuffle the list
+		const pictures = this.state.pictures.sort(() => Math.round(Math.random())- 1)
+		console.log(pictures)
 		if (this.state.clicked.includes(id)) {
 			this.setState({
 				message: 'Game Over! You already clicked that one',
 				score: 0,
-				pictures: this.state.pictures.sort(() => Math.random() * 0.5 - 1),
+				pictures,
 				clicked: [],
 			})
 			return
 		}
-		if (this.state.score === this.state.pictures.length - 1) {
+		// add newly clicked button to array
+		const clicked = [...this.state.clicked, id]
+		// set score to length of that array
+		const score = clicked.length
+		// update hiscore if necessary
+		const hiscore = score > this.state.hiscore ? score : this.state.hiscore
+		if (score === this.state.pictures.length) {
 			this.setState({
 				message: 'You got them all! ... but can you do it again?',
-				score: 0,
-				pictures: this.state.pictures.sort(() => Math.random() * 0.5 - 1),
+				score,
+				hiscore,
+				pictures,
 				clicked: [],
 			})
 			return
 		}
-		this.state.clicked.push(id)
 		this.setState({
-			score: this.state.score + 1,
-			pictures: this.state.pictures.sort(() => Math.random() * 0.5 - 1),
-			clicked: this.state.clicked,
 			message: 'Got one!',
+			score,
+			hiscore,
+			pictures,
+			clicked,
 		})
 	}
 
